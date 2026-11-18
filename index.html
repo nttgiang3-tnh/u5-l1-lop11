@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 · Lesson 1 — Getting Started (Grade 11 · Extra Class)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", Arial, sans-serif; background: #FDF6E3; color: #16324F; min-height: 100vh; }
+  header { background: #16324F; color: #fff; padding: 10px 18px; display: flex; justify-content: space-between; align-items: center; }
+  header .brand { font-weight: 800; font-size: 1.05rem; }
+  header .prog { font-size: 1rem; background: #C9A227; padding: 4px 14px; border-radius: 20px; font-weight: 700; }
+  .slide { display: none; max-width: 1180px; margin: 0 auto; padding: 26px 22px 90px; }
+  .slide.on { display: block; }
+  h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); text-align: center; margin: 12px 0 6px; }
+  h2 { font-size: clamp(1.6rem, 3.4vw, 2.4rem); margin-bottom: 10px; }
+  .stage { display: inline-block; background: #16324F; color: #F2C94C; font-weight: 800; font-size: 1rem; padding: 4px 14px; border-radius: 14px; margin-bottom: 8px; }
+  .sub { text-align: center; font-size: 1.25rem; color: #5a4a1f; margin-bottom: 16px; }
+  .instr { font-size: 1.28rem; background: #FFF3CD; border-left: 8px solid #C9A227; padding: 12px 16px; border-radius: 10px; margin-bottom: 18px; }
+  .card { background: #fff; border: 2px solid #E4D6B0; border-radius: 16px; padding: 20px; box-shadow: 0 3px 0 #E4D6B0; margin-bottom: 16px; }
+  .bigbtn { display: inline-block; background: #2E9E5B; color: #fff; font-size: 1.5rem; font-weight: 800; border: none; border-radius: 14px; padding: 16px 42px; cursor: pointer; }
+  .center { text-align: center; }
+  nav.foot { position: fixed; bottom: 0; left: 0; right: 0; background: #16324F; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 5; }
+  nav.foot button { background: #C9A227; color: #16324F; font-weight: 800; font-size: 1.15rem; border: none; border-radius: 10px; padding: 10px 26px; cursor: pointer; }
+  nav.foot button:disabled { opacity: .35; cursor: default; }
+  nav.foot .dots { color: #fff; font-size: 1rem; }
+  video { width: 100%; border-radius: 14px; background: #000; }
+  audio { width: 100%; margin-bottom: 14px; }
+  .vframe { flex: none; max-width: 980px; margin: 0 auto; }
+  .flowmap { font-size: 1.22rem; line-height: 1.75; }
+  .fcwrap { max-width: 900px; margin: 0 auto; }
+  .fcmeta { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .fccount { font-size: 1.3rem; font-weight: 800; white-space: nowrap; }
+  .fcbar { flex: 1; height: 14px; background: #EFE3C0; border-radius: 8px; overflow: hidden; }
+  .fcbar > div { height: 100%; background: #2E9E5B; width: 0%; transition: width .3s; }
+  .fcstage { perspective: 1200px; height: min(58vh, 560px); }
+  .fcin { position: relative; width: 100%; height: 100%; transition: transform .55s; transform-style: preserve-3d; cursor: pointer; }
+  .fcin.flip { transform: rotateY(180deg); }
+  .fcface { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; overflow: hidden; }
+  .fcfront { border: 4px solid #C9A227; background: #FFE9A8; }
+  .fcfront img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fchint { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(255,248,225,.94); border-top: 3px solid #C9A227; padding: 12px 18px; font-size: clamp(1.2rem, 2.4vw, 1.5rem); font-weight: 700; text-align: center; }
+  .fcback { background: #EAF4FF; border: 4px solid #7FB2E5; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 22px; text-align: center; }
+  .fcw { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 800; }
+  .fcipa { font-size: 1.45rem; color: #555; }
+  .fcvn { font-size: 1.5rem; font-weight: 800; color: #9C6B00; background: #FFE9A8; padding: 4px 20px; border-radius: 14px; }
+  .fcdef { font-size: 1.35rem; line-height: 1.45; }
+  .fcex { font-size: 1.3rem; font-style: italic; color: #37506B; }
+  .fcnav { display: flex; justify-content: space-between; gap: 10px; margin-top: 14px; }
+  .fcnav button { flex: 1; font-size: 1.3rem; font-weight: 800; padding: 14px 8px; border-radius: 12px; border: none; cursor: pointer; background: #16324F; color: #fff; }
+  .fcnav button.flipbtn { background: #C9A227; color: #16324F; }
+  .spk { background: #16324F; color: #fff; border: none; border-radius: 24px; padding: 10px 22px; font-size: 1.15rem; font-weight: 700; cursor: pointer; }
+  .q { margin-bottom: 18px; }
+  .qtext { font-size: clamp(1.3rem, 2.4vw, 1.6rem); margin-bottom: 10px; line-height: 1.45; }
+  .opts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt { font-size: 1.25rem; padding: 12px 20px; border-radius: 12px; border: 3px solid #B9C6D4; background: #fff; cursor: pointer; font-weight: 600; }
+  .opt:hover { border-color: #16324F; }
+  .opt.right { background: #D8F3DC; border-color: #2E9E5B; }
+  .opt.wrong { background: #FDE2E2; border-color: #C0392B; }
+  .opt:disabled { cursor: default; opacity: .92; }
+  .explain { display: none; margin-top: 8px; font-size: 1.12rem; font-style: italic; color: #37506B; }
+  .explain.show { display: block; }
+  select.gap { font-size: 1.22rem; padding: 6px 10px; border-radius: 8px; border: 2px solid #B9C6D4; max-width: 100%; }
+  input.gapin { font-size: 1.22rem; padding: 6px 10px; border-radius: 8px; border: 2px solid #B9C6D4; width: 220px; max-width: 70vw; font-family: inherit; }
+  .selrow { font-size: 1.35rem; margin-bottom: 14px; line-height: 2; }
+  .toggle { background: #7FB2E5; color: #16324F; font-weight: 800; border: none; border-radius: 10px; padding: 10px 22px; font-size: 1.15rem; cursor: pointer; margin: 8px 0; }
+  .ordrow { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .ord { font-size: 1.3rem; padding: 12px 18px; border-radius: 12px; border: 3px solid #B9C6D4; background: #fff; cursor: pointer; font-weight: 700; }
+  .ord.picked { background: #16324F; color: #fff; border-color: #16324F; }
+  .ordseq { font-size: 1.35rem; min-height: 2rem; font-weight: 700; color: #9C6B00; }
+  .read p { font-size: 1.3rem; line-height: 1.6; margin-bottom: 12px; }
+  .langbox { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px){ .langbox { grid-template-columns: 1fr; } }
+  .langbox .card h3 { font-size: 1.5rem; margin-bottom: 8px; }
+  .langbox .card p, .langbox .card li { font-size: 1.25rem; line-height: 1.55; }
+  .model { display: none; }
+  .model.show { display: block; }
+  .mapimg { width: 100%; border-radius: 14px; display: block; }
+  textarea { width: 100%; font-size: 1.25rem; padding: 12px; border: 2px solid #B9C6D4; border-radius: 10px; min-height: 110px; font-family: inherit; }
+  input.name { font-size: 1.2rem; padding: 10px; border: 2px solid #B9C6D4; border-radius: 10px; width: 100%; margin-bottom: 12px; }
+  .bigscore { font-size: 2.1rem; font-weight: 800; text-align: center; color: #16324F; }
+  #report table { width: 100%; border-collapse: collapse; font-size: 1.15rem; }
+  #report td, #report th { border: 1px solid #E4D6B0; padding: 8px 10px; text-align: left; }
+  #report th { background: #16324F; color: #F2C94C; }
+  footer.credit { text-align: center; padding: 18px 12px 84px; color: #5a4a1f; font-size: 1.02rem; }
+  .stars { font-size: 2.6rem; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <span class="brand">🌍 Unit 5 · Global Warming — Lesson 1</span>
+  <span class="prog" id="scoreChip">⭐ 0 / 93</span>
+</header>
+
+<!-- 0 HOME -->
+<section class="slide on">
+  <div class="stars">🌍 🌡️ 🌱 ☀️ 🌳</div>
+  <h1>The Green Earth Campaign</h1>
+  <p class="sub">Unit 5 · Global Warming — Lesson 1: Getting Started · Grade 11 · Extra Class (B1–B2)</p>
+  <div class="card flowmap">
+    <b>Today's journey:</b><br>
+    🎮 <b>Stage 1 – Warmer:</b> a game to remember Unit 4 (ASEAN and Vietnam)<br>
+    🃏 <b>Stage 2 – Key words:</b> 20 flashcards, matching and gap-fill <i>(global warming, carbon dioxide, greenhouse gas, fossil fuel, emission, deforestation, carbon footprint…)</i><br>
+    💡 <b>Grammar:</b> present participle clauses <i>(Seeing the chart, Linh understood… · Being worried, we acted… · …, causing floods)</i><br>
+    🎬 <b>Stage 3 – The story video:</b> watch, check, read, listen, speak and write<br>
+    🏠 <b>Homework:</b> 30 questions
+  </div>
+  <p class="center"><button class="bigbtn" onclick="go(1)">▶ Start the lesson</button></p>
+</section>
+
+<!-- 1 WARMER GAME -->
+<section class="slide">
+  <span class="stage">STAGE 1 · WARMER</span>
+  <h2>🎮 Game — Remember Units 1–3!</h2>
+  <div class="instr">Answer 10 questions to review Unit 4: ASEAN and Vietnam.</div>
+  <div id="warmBox"></div>
+</section>
+
+<!-- 2 FLASHCARDS -->
+<section class="slide">
+  <span class="stage">STAGE 2 · VOCABULARY</span>
+  <h2>🃏 Flashcards — 20 Key Words of Unit 5</h2>
+  <div class="instr">One card at a time! Look at the picture, read the hint question and guess the word or phrase. Then flip the card, listen and repeat!</div>
+  <div class="fcwrap">
+    <div class="fcmeta"><span class="fccount" id="fcCount">Card 1 / 20</span><div class="fcbar"><div id="fcProg"></div></div></div>
+    <div class="fcstage"><div class="fcin" id="fcCard"></div></div>
+    <div class="fcnav">
+      <button type="button" onclick="fcMove(-1)">⬅ Previous</button>
+      <button type="button" class="flipbtn" onclick="fcFlip()">🔄 Flip card</button>
+      <button type="button" onclick="fcMove(1)">Next ➡</button>
+    </div>
+  </div>
+</section>
+
+<!-- 3 VOCAB CHECK: MATCHING -->
+<section class="slide">
+  <span class="stage">STAGE 2 · CHECK VOCABULARY</span>
+  <h2>🧩 Matching — Match the word to its meaning</h2>
+  <div class="instr">Choose the correct Vietnamese meaning for each word.</div>
+  <div class="card" id="matchBox"></div>
+</section>
+
+<!-- 4 VOCAB CHECK: GAP FILL -->
+<section class="slide">
+  <span class="stage">STAGE 2 · CHECK VOCABULARY</span>
+  <h2>✏️ Gap-fill — Complete the sentences</h2>
+  <div class="instr">Choose the correct word for each sentence.</div>
+  <div class="card" id="vgapBox"></div>
+</section>
+
+<!-- 5 GRAMMAR TEACH -->
+<section class="slide">
+  <span class="stage">GRAMMAR</span>
+  <h2>💡 Grammar — Present Participle Clauses (V-ing Clauses)</h2>
+  <div class="langbox">
+    <div class="card">
+      <h3>⏰ Showing TIME</h3>
+      <p>Use a V-ing clause for an action that happens at the same time as, or just before, the main action. The subject of both actions must be the SAME.</p>
+      <p style="margin-top:8px;">• <i><b>Walking</b> into the science room, Linh saw a big chart on the wall.</i> (= When she walked in…)</p>
+      <p style="margin-top:8px;">• <i><b>Seeing</b> the dry garden, Nam felt sad.</i></p>
+    </div>
+    <div class="card">
+      <h3>💭 Showing REASON</h3>
+      <p>A V-ing clause at the beginning of a sentence can give the reason for the main action.</p>
+      <p style="margin-top:8px;">• <i><b>Being</b> worried about the planet, the students joined the campaign.</i> (= Because they were worried…)</p>
+      <p style="margin-top:8px;">• <i><b>Knowing</b> the danger, we must act now.</i></p>
+    </div>
+  </div>
+  <div class="card">
+    <p style="font-size:1.25rem; line-height:1.6;">🌊 <b>Showing RESULT</b> — put the V-ing clause AFTER the main clause:<br>
+    • <i>The ice is melting fast, <b>causing</b> the sea level to rise.</i> (= …and this causes…)<br>
+    • <i>People burn more coal, <b>releasing</b> more carbon dioxide into the atmosphere.</i><br>
+    ⚠️ If the subject is the RECEIVER of the action, use the past participle (V3): <i><b>Located</b> near the sea, the town often suffers from floods.</i> · <i><b>Built</b> in 2020, the solar farm produces clean energy.</i></p>
+  </div>
+</section>
+
+<!-- 6 GRAMMAR CHECK -->
+<section class="slide">
+  <span class="stage">GRAMMAR · CHECK</span>
+  <h2>✏️ Check grammar — Choose the correct answer</h2>
+  <div id="pracBox"></div>
+</section>
+
+<!-- 7 VIDEO -->
+<section class="slide">
+  <span class="stage">STAGE 3 · THE STORY VIDEO</span>
+  <h2>🎬 Watch — The Green Earth Campaign</h2>
+  <div class="instr">Watch the story. What do Linh and Nam do in the Green Earth Campaign?</div>
+  <div class="vframe"><video controls preload="metadata" src="assets/story.mp4"></video></div>
+</section>
+
+<!-- 8 CHECK INFO: ORDER -->
+<section class="slide">
+  <span class="stage">STAGE 3 · CHECK THE VIDEO</span>
+  <h2>🔎 Check the video — Put the events in order</h2>
+  <div class="instr">Click the events in the order they happen in the video.</div>
+  <div class="card">
+    <div class="ordrow" id="ordRow"></div>
+    <div class="ordseq" id="ordSeq">Your order: …</div>
+    <p style="margin-top:10px;"><button class="toggle" onclick="checkOrder()">✔ Check</button> <button class="toggle" onclick="resetOrder()">↺ Try again</button></p>
+    <div class="explain" id="ordEx"></div>
+  </div>
+</section>
+
+<!-- 9 CHECK INFO: TRUE/FALSE -->
+<section class="slide">
+  <span class="stage">STAGE 3 · CHECK THE VIDEO</span>
+  <h2>🔎 Check the information — True or False?</h2>
+  <div class="instr">Are the sentences true or false? Watch the video again if you need.</div>
+  <div class="vframe" style="margin-bottom:16px;"><video controls preload="metadata" src="assets/story.mp4"></video></div>
+  <div id="tfBox"></div>
+</section>
+
+<!-- 10 READING -->
+<section class="slide">
+  <span class="stage">STAGE 3 · READING</span>
+  <h2>📖 Reading — The Green Earth Campaign</h2>
+  <div class="instr">Read the story, then answer the questions.</div>
+  <div class="card read">
+    <p>On a bright Saturday morning, Green Star High School started its Green Earth Campaign, and Linh and Nam joined it with their classmates. Walking into the science room, Linh saw a big chart showing the Earth's rising temperature. Their teacher explained that burning fossil fuels like coal releases carbon dioxide into the atmosphere. Pointing at a poster, Linh added: “Carbon dioxide and other greenhouse gases trap heat in the atmosphere, causing global warming.”</p>
+    <p>Later, the class walked through the school garden. The ground was dry and cracked because a long heatwave and drought had killed many young trees. The teacher then showed photos of forests being cut down and of flooded streets in a coastal town. “Deforestation makes the problem worse,” she said. “Warming the planet, the sun melts the ice at the poles, raising the sea level and causing floods in low coastal areas.”</p>
+    <p>In the afternoon, the students planted new trees in the garden and helped put solar panels on the library roof. “Using renewable energy helps us cut our carbon footprint,” Nam said happily. Linh then presented the class plan: save electricity, cycle to school and plant one hundred trees this school year. At sunset, everyone took a group photo under the big campaign banner. Smiling at the camera, Nam said: “Protecting our planet starts with us.”</p>
+  </div>
+  <div id="readBox"></div>
+</section>
+
+<!-- 11 LISTENING -->
+<section class="slide">
+  <span class="stage">STAGE 3 · LISTENING</span>
+  <h2>🎧 Listening — Exam Practice (Mid-term Format)</h2>
+  <div class="instr">🎧 Listen to the recording — each part is played TWICE. <b>Part 1:</b> complete the form with ONE word or a number. <b>Part 2:</b> decide True or False. The answers are NOT written in the questions — listen for the meaning!</div>
+  <audio controls preload="metadata" src="assets/listening.mp3"></audio>
+  <div class="card">
+    <p style="font-size:1.35rem; font-weight:800; margin-bottom:8px;">PART 1 — Complete the form: A TALK — OUR WARMING PLANET</p>
+    <div id="formBox"></div>
+  </div>
+  <p style="font-size:1.35rem; font-weight:800; margin:14px 0 8px;">PART 2 — True or False?</p>
+  <div id="ltfBox"></div>
+</section>
+
+<!-- 12 SPEAKING -->
+<section class="slide">
+  <span class="stage">STAGE 3 · SPEAKING</span>
+  <h2>🗣️ Speaking — Present the causes of global warming</h2>
+  <div class="instr">Work in pairs. Prepare a short presentation (6–8 sentences) about the causes of global warming. Use at least TWO present participle clauses. Then present to your partner and answer one question from them.</div>
+  <div class="card" style="padding:10px;"><img class="mapimg" src="assets/cards/fossil-fuel.jpg" alt="A factory burning fossil fuels"></div>
+  <div class="card">
+    <p style="font-size:1.28rem; line-height:1.6;"><b>Useful language:</b> The main cause of… is… · Burning… releases… into the atmosphere. · …, trapping heat around the Earth. · Cutting down forests means… · As a result, … · …, causing the temperature to rise. · In my opinion, the most serious cause is… because…</p>
+    <button class="toggle" onclick="document.getElementById('spModel').classList.toggle('show')">👀 Show model / Hide model</button>
+    <div class="model" id="spModel">
+      <p style="font-size:1.28rem; line-height:1.6;"><b>A:</b> Today I will present the causes of global warming. The main cause is burning fossil fuels like coal and oil. Burning these fuels releases carbon dioxide into the atmosphere, trapping heat around the Earth. Another cause is deforestation. Cutting down forests removes the trees that clean our air. As a result, the temperature keeps rising, causing ice to melt and sea levels to go up.<br><b>B:</b> Which cause do you think is the most serious?<br><b>A:</b> In my opinion, burning fossil fuels is the most serious cause because it produces the most emissions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 13 WRITING -->
+<section class="slide">
+  <span class="stage">STAGE 3 · WRITING</span>
+  <h2>✍️ Writing — The causes of global warming</h2>
+  <div class="instr">Write a paragraph (100–120 words) about the causes of global warming. Use at least TWO present participle clauses and at least FIVE words from this lesson.</div>
+  <div class="card">
+    <p style="font-size:1.25rem; margin-bottom:10px;"><b>Sentence starters:</b> Global warming is mainly caused by… · Firstly, burning… releases… · These gases…, trapping… · Secondly, deforestation… · Cutting down trees means… · As a result, …</p>
+    <p style="font-size:1.25rem; margin-bottom:10px;"><b>Useful language:</b> fossil fuels · carbon dioxide · greenhouse gases · atmosphere · emissions · trap heat · deforestation · consequence · temperature · melt</p>
+    <textarea id="writeBox" placeholder="Write here…"></textarea>
+    <button class="toggle" onclick="document.getElementById('wrModel').classList.toggle('show')">👀 Show model / Hide model</button>
+    <div class="model" id="wrModel">
+      <p style="font-size:1.25rem; line-height:1.6;">Global warming is mainly caused by human activities. Firstly, burning fossil fuels like coal and oil releases huge amounts of carbon dioxide into the atmosphere. These greenhouse gases stay in the air for a long time, trapping heat around the Earth. Secondly, deforestation makes the problem worse. Cutting down forests removes the trees that absorb carbon dioxide, leaving more gas in the atmosphere. Factories and cars also produce harmful emissions every day. As a result, the Earth's temperature keeps rising, melting the polar ice and causing floods and droughts in many places.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14 HOMEWORK A -->
+<section class="slide">
+  <span class="stage">HOMEWORK · PART A</span>
+  <h2>🏠 Homework — Part A: Vocabulary (1–10)</h2>
+  <div class="instr">Choose the correct word for each sentence.</div>
+  <div id="hwABox"></div>
+</section>
+
+<!-- 15 HOMEWORK B -->
+<section class="slide">
+  <span class="stage">HOMEWORK · PART B</span>
+  <h2>🏠 Homework — Part B: Participle Clauses (11–20)</h2>
+  <div class="instr">Choose the correct word for each sentence.</div>
+  <div id="hwBBox"></div>
+</section>
+
+<!-- 16 HOMEWORK C -->
+<section class="slide">
+  <span class="stage">HOMEWORK · PART C</span>
+  <h2>🏠 Homework — Part C: The story (21–30)</h2>
+  <div class="instr">Choose the correct answer about Linh and Nam's story.</div>
+  <div id="hwCBox"></div>
+</section>
+
+<!-- 17 REPORT -->
+<section class="slide">
+  <span class="stage">REPORT CARD</span>
+  <h2>📸 Report Card</h2>
+  <div class="card" id="report">
+    <p style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">Take a photo/screenshot of your report card and send it to your teacher!</p>
+    <input class="name" id="stuName" type="text" placeholder="Your name: ………………">
+    <div class="bigscore" id="hwScore">🏠 HOMEWORK: 0 / 30</div>
+    <div class="bigscore" id="finalScore" style="font-size:1.5rem;">⭐ Total: 0 / 93</div>
+    <table>
+      <tr><th>Part</th><th>Score</th></tr>
+      <tr><td>Warmer game (Unit 4)</td><td id="r-warm">–</td></tr>
+      <tr><td>Vocabulary — Matching</td><td id="r-match">–</td></tr>
+      <tr><td>Vocabulary — Gap-fill</td><td id="r-vgap">–</td></tr>
+      <tr><td>Grammar check</td><td id="r-prac">–</td></tr>
+      <tr><td>Video check — Order the events</td><td id="r-ord">–</td></tr>
+      <tr><td>Video check — True / False</td><td id="r-tf">–</td></tr>
+      <tr><td>Reading</td><td id="r-read">–</td></tr>
+      <tr><td>Listening — Form completion</td><td id="r-lgap">–</td></tr>
+      <tr><td>Listening — True / False</td><td id="r-ltf">–</td></tr>
+      <tr><td>Homework A — Vocabulary</td><td id="r-hwA">–</td></tr>
+      <tr><td>Homework B — Participle Clauses</td><td id="r-hwB">–</td></tr>
+      <tr><td>Homework C — The story</td><td id="r-hwC">–</td></tr>
+    </table>
+  </div>
+</section>
+
+<footer class="credit">✍️ Created by Mrs. Thanh Giang — Giáo viên tiếng Anh, Trường THPT Chuyên Thoại Ngọc Hầu, tỉnh An Giang</footer>
+
+<nav class="foot">
+  <button id="prevBtn" onclick="go(cur-1)">⬅ Back</button>
+  <span class="dots" id="dots"></span>
+  <button id="nextBtn" onclick="go(cur+1)">Next ➡</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let cur = 0;
+const scores = { warm: 0, match: null, vgap: null, prac: 0, ord: null, tf: 0, read: 0, lgap: null, ltf: 0, hwA: 0, hwB: 0, hwC: 0 };
+const maxs = { warm: 10, match: 10, vgap: 8, prac: 8, ord: 4, tf: 5, read: 6, lgap: 6, ltf: 6, hwA: 10, hwB: 10, hwC: 10 };
+const TOTAL = 93;
+function total() { let t = 0; for (const k in maxs) t += (scores[k] || 0); return t; }
+function hwTotal() { return (scores.hwA || 0) + (scores.hwB || 0) + (scores.hwC || 0); }
+function refresh() {
+  document.getElementById('scoreChip').textContent = '⭐ ' + total() + ' / ' + TOTAL;
+  document.getElementById('hwScore').textContent = '🏠 HOMEWORK: ' + hwTotal() + ' / 30';
+  document.getElementById('finalScore').textContent = '⭐ Total: ' + total() + ' / ' + TOTAL;
+  for (const k in maxs) { const el = document.getElementById('r-' + k); if (el) el.textContent = (scores[k] === null ? '–' : scores[k] + ' / ' + maxs[k]); }
+  document.getElementById('dots').textContent = 'Slide ' + (cur + 1) + ' / ' + slides.length;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === slides.length - 1;
+}
+function go(i) {
+  if (i < 0 || i >= slides.length) return;
+  slides[cur].classList.remove('on'); cur = i; slides[cur].classList.add('on');
+  window.scrollTo(0, 0); refresh();
+}
+function buildMCQ(boxId, items, key) {
+  const box = document.getElementById(boxId);
+  items.forEach(it => {
+    const wrap = document.createElement('div'); wrap.className = 'card q';
+    const qt = document.createElement('div'); qt.className = 'qtext'; qt.innerHTML = it.q; wrap.appendChild(qt);
+    const opts = document.createElement('div'); opts.className = 'opts';
+    const ex = document.createElement('div'); ex.className = 'explain'; ex.textContent = it.ex;
+    it.opts.forEach((op, oi) => {
+      const b = document.createElement('button'); b.className = 'opt'; b.textContent = op;
+      b.onclick = () => {
+        opts.querySelectorAll('.opt').forEach(x => x.disabled = true);
+        if (oi === it.ans) { b.classList.add('right'); scores[key]++; }
+        else { b.classList.add('wrong'); opts.children[it.ans].classList.add('right'); }
+        ex.classList.add('show'); refresh();
+      };
+      opts.appendChild(b);
+    });
+    wrap.appendChild(opts); wrap.appendChild(ex); box.appendChild(wrap);
+  });
+}
+function buildTF(boxId, items, key) {
+  const box = document.getElementById(boxId);
+  items.forEach(it => {
+    const wrap = document.createElement('div'); wrap.className = 'card q';
+    const qt = document.createElement('div'); qt.className = 'qtext'; qt.textContent = it.q; wrap.appendChild(qt);
+    const opts = document.createElement('div'); opts.className = 'opts';
+    const ex = document.createElement('div'); ex.className = 'explain'; ex.textContent = it.ex;
+    [['True', true], ['False', false]].forEach(([label, val]) => {
+      const b = document.createElement('button'); b.className = 'opt'; b.textContent = label;
+      b.onclick = () => {
+        opts.querySelectorAll('.opt').forEach(x => x.disabled = true);
+        if (val === it.ans) { b.classList.add('right'); scores[key]++; } else { b.classList.add('wrong'); }
+        ex.classList.add('show'); refresh();
+      };
+      opts.appendChild(b);
+    });
+    wrap.appendChild(opts); wrap.appendChild(ex); box.appendChild(wrap);
+  });
+}
+function buildSelectCheck(boxId, items, key, doneText) {
+  const box = document.getElementById(boxId);
+  items.forEach(it => {
+    const p = document.createElement('p'); p.className = 'selrow';
+    let html = it.text;
+    it.a.forEach((ans, i) => {
+      const sel = '<select class="gap" data-ans="' + ans + '"><option value="">…</option>' + it.o[i].map(o => '<option>' + o + '</option>').join('') + '</select>';
+      html = html.replace('___', sel);
+    });
+    p.innerHTML = html; box.appendChild(p);
+  });
+  const btn = document.createElement('button'); btn.className = 'toggle'; btn.textContent = '✔ Check';
+  const ex = document.createElement('div'); ex.className = 'explain';
+  btn.onclick = () => {
+    let s = 0, tot = 0;
+    box.querySelectorAll('select.gap').forEach(sel => { tot++; if (sel.value === sel.dataset.ans) { s++; sel.style.borderColor = '#2E9E5B'; } else sel.style.borderColor = '#C0392B'; });
+    scores[key] = s; ex.textContent = 'You got ' + s + ' / ' + tot + '. ' + doneText;
+    ex.classList.add('show'); refresh();
+  };
+  box.appendChild(btn); box.appendChild(ex);
+}
+
+/* ---------- RENDER HELPERS ---------- */
+function renderMCQ(sel, items, key) { buildMCQ(sel.replace('#', ''), items, key); }
+function tfRender(sel, items, key) { buildTF(sel.replace('#', ''), items, key); }
+function selRender(sel, items, key) {
+  const box = document.querySelector(sel);
+  const rows = [];
+  items.forEach(it => {
+    const p = document.createElement('p'); p.className = 'selrow';
+    const label = document.createElement('span'); label.innerHTML = it.q + ' ';
+    const s = document.createElement('select'); s.className = 'gap'; s.dataset.ans = it.opts[it.ans];
+    s.innerHTML = '<option value="">…</option>' + it.opts.map(o => '<option>' + o + '</option>').join('');
+    const ex = document.createElement('div'); ex.className = 'explain'; ex.innerHTML = it.ex || '';
+    p.appendChild(label); p.appendChild(s); p.appendChild(ex);
+    box.appendChild(p); rows.push([s, ex]);
+  });
+  const btn = document.createElement('button'); btn.className = 'toggle'; btn.textContent = '✔ Check';
+  const done = document.createElement('div'); done.className = 'explain';
+  btn.onclick = () => {
+    let sc = 0;
+    rows.forEach(rw => { const s = rw[0], ex = rw[1]; if (s.value === s.dataset.ans) { sc++; s.style.borderColor = '#2E9E5B'; } else s.style.borderColor = '#C0392B'; ex.classList.add('show'); });
+    scores[key] = sc; done.textContent = 'You got ' + sc + ' / ' + items.length + '.'; done.classList.add('show'); refresh();
+  };
+  box.appendChild(btn); box.appendChild(done);
+}
+function buildForm(boxId, fields, key) {
+  const box = document.getElementById(boxId);
+  fields.forEach(f => {
+    const p = document.createElement('p'); p.className = 'selrow';
+    const lab = document.createElement('span'); lab.innerHTML = f.label + ' ';
+    const inp = document.createElement('input'); inp.type = 'text'; inp.className = 'gapin'; inp.dataset.accept = f.accept.join('|');
+    p.appendChild(lab); p.appendChild(inp);
+    if (f.suffix) { const sfx = document.createElement('span'); sfx.textContent = ' ' + f.suffix; p.appendChild(sfx); }
+    box.appendChild(p);
+  });
+  const btn = document.createElement('button'); btn.className = 'toggle'; btn.textContent = '✔ Check';
+  const done = document.createElement('div'); done.className = 'explain';
+  btn.onclick = () => {
+    let sc = 0;
+    box.querySelectorAll('input.gapin').forEach(inp => {
+      const norm = v => v.toLowerCase().replace(/\s+/g, '');
+      const ok = inp.dataset.accept.split('|').map(norm).includes(norm(inp.value));
+      if (ok) { sc++; inp.style.borderColor = '#2E9E5B'; } else inp.style.borderColor = '#C0392B';
+    });
+    scores[key] = sc;
+    done.textContent = 'You got ' + sc + ' / ' + fields.length + '. Answers: Friday · 20th · 3:30 · the school library · Mai Anh · notebook.';
+    done.classList.add('show'); refresh();
+  };
+  box.appendChild(btn); box.appendChild(done);
+}
+let fcIdx = 0, fcFlipped = false;
+function fcRender() {
+  const w = FCARDS[fcIdx];
+  const fcCardEl = document.getElementById('fcCard');
+  fcCardEl.classList.remove('flip'); fcFlipped = false;
+  fcCardEl.innerHTML =
+    '<div class="fcface fcfront"><img src="' + w.img + '" alt=""><div class="fchint">❓ ' + w.hint + '</div></div>' +
+    '<div class="fcface fcback"><div class="fcw">' + w.w + '</div>' +
+    '<div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">' +
+    '<button class="spk" type="button" data-a="assets/words/' + w.slug + '.mp3">🔊 Listen</button>' +
+    '<button class="spk" type="button" data-a="assets/words/' + w.slug + '-ex.mp3">🔊 Example</button></div>' +
+    '<div class="fcipa">' + w.ipa + '</div><div class="fcvn">' + w.vn + '</div>' +
+    '<div class="fcdef">' + w.def + '</div><div class="fcex">“' + w.ex + '”</div></div>';
+  fcCardEl.querySelectorAll('.spk').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); new Audio(b.dataset.a).play(); }));
+  document.getElementById('fcCount').textContent = 'Card ' + (fcIdx + 1) + ' / ' + FCARDS.length;
+  document.getElementById('fcProg').style.width = ((fcIdx + 1) / FCARDS.length * 100) + '%';
+}
+function fcFlip() { fcFlipped = !fcFlipped; document.getElementById('fcCard').classList.toggle('flip', fcFlipped); }
+function fcMove(d) { fcIdx = (fcIdx + d + FCARDS.length) % FCARDS.length; fcRender(); }
+function fcInit() { document.getElementById('fcCard').addEventListener('click', fcFlip); fcRender(); }
+let ORDER = [], picked = [];
+function shuffledArr(a) { const arr = a.slice(); for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
+function initOrder(correct, key) {
+  ORDER = correct.slice(); picked = [];
+  const row = document.getElementById('ordRow');
+  shuffledArr(correct).forEach(txt => {
+    const b = document.createElement('button'); b.className = 'ord'; b.textContent = txt;
+    b.onclick = () => {
+      if (b.classList.contains('picked')) { b.classList.remove('picked'); picked = picked.filter(x => x !== txt); }
+      else if (picked.length < ORDER.length) { b.classList.add('picked'); picked.push(txt); }
+      updSeq();
+    };
+    row.appendChild(b);
+  });
+  updSeq();
+}
+function updSeq() { document.getElementById('ordSeq').textContent = 'Your order: ' + (picked.length ? picked.join(' → ') : '…'); }
+function checkOrder() {
+  const ex = document.getElementById('ordEx');
+  let s = 0; picked.forEach((p, i) => { if (ORDER[i] === p) s++; });
+  if (picked.length === ORDER.length) { scores.ord = s; ex.textContent = 'You got ' + s + ' / ' + ORDER.length + ' in the right place. Correct order: ' + ORDER.join(' → ') + '.'; }
+  else { scores.ord = 0; ex.textContent = 'Choose all ' + ORDER.length + ' first!'; }
+  ex.classList.add('show'); refresh();
+}
+function resetOrder() { picked = []; document.querySelectorAll('.ord').forEach(b => b.classList.remove('picked')); updSeq(); document.getElementById('ordEx').classList.remove('show'); }
+function showSlide(i) { go(i); }
+
+/* ---------- WARMER (Unit 4 review) ---------- */
+const warmQ=[{"q": "ASEAN is an ______ of ten countries in Southeast Asia.", "opts": ["association", "charter", "summit", "costume"], "ans": 0, "ex": "ASEAN là một <b>association</b> (hiệp hội) gồm mười nước."}, {"q": "Vietnam became a ______ of ASEAN in 1995.", "opts": ["leader", "member", "motto", "region"], "ans": 1, "ex": "Vietnam became a <b>member</b> (thành viên) of ASEAN in 1995."}, {"q": "The ASEAN ______ is 'One Vision, One Identity, One Community'.", "opts": ["flag", "charter", "motto", "symbol"], "ans": 2, "ex": "Đó là <b>motto</b> (khẩu hiệu) của ASEAN."}, {"q": "Leaders of the ten countries meet every year at the ASEAN ______.", "opts": ["forum", "exchange", "youth", "summit"], "ans": 3, "ex": "Các nhà lãnh đạo gặp nhau tại <b>summit</b> (hội nghị thượng đỉnh)."}, {"q": "She won a ______ to study in Singapore.", "opts": ["scholarship", "costume", "bloc", "culture"], "ans": 0, "ex": "Cô ấy giành được <b>scholarship</b> (học bổng)."}, {"q": "______ about other cultures is very interesting.", "opts": ["Learn", "Learns", "Learning", "Learned"], "ans": 2, "ex": "V-ing làm chủ ngữ: <b>Learning</b> about other cultures…"}, {"q": "Students enjoy ______ traditional costumes at the forum.", "opts": ["wear", "wearing", "wears", "wore"], "ans": 1, "ex": "Sau 'enjoy' dùng V-ing: <b>wearing</b>."}, {"q": "We look forward to ______ our friends from Thailand.", "opts": ["meet", "meets", "met", "meeting"], "ans": 3, "ex": "'Look forward to' + V-ing: <b>meeting</b>."}, {"q": "The ten rice stalks are a ______ of unity in ASEAN.", "opts": ["symbol", "summit", "scholarship", "neighbour"], "ans": 0, "ex": "Mười bông lúa là <b>symbol</b> (biểu tượng) của sự đoàn kết."}, {"q": "Our school joined a student ______ programme with a school in Laos.", "opts": ["costume", "exchange", "charter", "flag"], "ans": 1, "ex": "Chương trình <b>exchange</b> (trao đổi) học sinh."}];
+renderMCQ("#warmBox",warmQ,"warm",10,"warmprog");
+
+/* ---------- FLASHCARDS ---------- */
+const FCARDS=[{"w": "global warming", "ipa": "/ˈɡləʊbl ˈwɔːmɪŋ/", "vn": "sự nóng lên toàn cầu", "def": "(noun) the slow increase in the Earth's average temperature", "ex": "Global warming is causing ice at the poles to melt.", "hint": "The Earth is getting hotter and hotter year by year. What is this problem called?", "img": "assets/cards/global-warming.jpg", "slug": "global-warming"}, {"w": "carbon dioxide", "ipa": "/ˈkɑːbən daɪˈɒksaɪd/", "vn": "khí cacbonic (CO₂)", "def": "(noun) a gas that is produced when carbon is burned, for example in car engines and factories", "ex": "Burning coal releases a lot of carbon dioxide.", "hint": "This invisible gas comes out when we burn coal and petrol. What is it?", "img": "assets/cards/carbon-dioxide.jpg", "slug": "carbon-dioxide"}, {"w": "greenhouse gas", "ipa": "/ˈɡriːnhaʊs ɡæs/", "vn": "khí nhà kính", "def": "(noun) a gas that traps heat in the Earth's atmosphere, such as carbon dioxide", "ex": "Carbon dioxide is the most common greenhouse gas.", "hint": "These gases trap heat around the Earth like the glass of a greenhouse. What are they called?", "img": "assets/cards/greenhouse-gas.jpg", "slug": "greenhouse-gas"}, {"w": "fossil fuel", "ipa": "/ˈfɒsl fjuːəl/", "vn": "nhiên liệu hóa thạch", "def": "(noun) a fuel such as coal or oil that was formed underground millions of years ago", "ex": "Coal and oil are fossil fuels.", "hint": "Coal, oil and gas formed millions of years ago are called … fuels.", "img": "assets/cards/fossil-fuel.jpg", "slug": "fossil-fuel"}, {"w": "coal", "ipa": "/kəʊl/", "vn": "than đá", "def": "(noun) a hard black substance found underground that is burned to produce energy", "ex": "The power station burns coal to make electricity.", "hint": "This hard black rock is dug from the ground and burned for energy. What is it?", "img": "assets/cards/coal.jpg", "slug": "coal"}, {"w": "emission", "ipa": "/ɪˈmɪʃn/", "vn": "khí thải; sự phát thải", "def": "(noun) gas or other substances that are sent out into the air, especially harmful ones", "ex": "Cars produce harmful emissions in big cities.", "hint": "The dirty gases that cars and factories send into the air are called …?", "img": "assets/cards/emission.jpg", "slug": "emission"}, {"w": "atmosphere", "ipa": "/ˈætməsfɪə/", "vn": "khí quyển, bầu khí quyển", "def": "(noun) the layer of gases around the Earth", "ex": "Greenhouse gases stay in the atmosphere for a long time.", "hint": "The thick layer of air and gases that surrounds our planet is the …?", "img": "assets/cards/atmosphere.jpg", "slug": "atmosphere"}, {"w": "temperature", "ipa": "/ˈtemprətʃə/", "vn": "nhiệt độ", "def": "(noun) how hot or cold something is", "ex": "The average temperature of the Earth is rising.", "hint": "How hot or cold it is — we measure this in degrees. What is it?", "img": "assets/cards/temperature.jpg", "slug": "temperature"}, {"w": "consequence", "ipa": "/ˈkɒnsɪkwəns/", "vn": "hậu quả", "def": "(noun) a result or effect of something, often a bad one", "ex": "Floods are a serious consequence of global warming.", "hint": "A bad result that follows an action or a problem is called a …?", "img": "assets/cards/consequence.jpg", "slug": "consequence"}, {"w": "deforestation", "ipa": "/diːˌfɒrɪˈsteɪʃn/", "vn": "nạn phá rừng", "def": "(noun) cutting down or burning all the trees in a large area", "ex": "Deforestation is destroying the homes of many animals.", "hint": "When people cut down whole forests, this problem is called …?", "img": "assets/cards/deforestation.jpg", "slug": "deforestation"}, {"w": "melt", "ipa": "/melt/", "vn": "tan chảy", "def": "(verb) to become liquid when heated; ice turns into water", "ex": "The ice in the Arctic is starting to melt.", "hint": "In the hot sun, ice slowly turns into water. What does the ice do?", "img": "assets/cards/melt.jpg", "slug": "melt"}, {"w": "sea level", "ipa": "/ˈsiː levl/", "vn": "mực nước biển", "def": "(noun) the average height of the sea, used to measure land height", "ex": "When ice melts, the sea level rises.", "hint": "As ice melts, this level of the ocean goes up and up. What is it?", "img": "assets/cards/sea-level.jpg", "slug": "sea-level"}, {"w": "renewable energy", "ipa": "/rɪˈnjuːəbl ˈenədʒi/", "vn": "năng lượng tái tạo", "def": "(noun) energy from natural sources that never run out, like the sun and wind", "ex": "Solar power is a clean form of renewable energy.", "hint": "Energy from the sun and wind that never runs out is called … energy.", "img": "assets/cards/renewable-energy.jpg", "slug": "renewable-energy"}, {"w": "solar panel", "ipa": "/ˈsəʊlə ˈpænl/", "vn": "tấm pin mặt trời", "def": "(noun) a flat device on a roof that changes sunlight into electricity", "ex": "Our school put solar panels on the library roof.", "hint": "These flat boards on a roof turn sunlight into electricity. What are they?", "img": "assets/cards/solar-panel.jpg", "slug": "solar-panel"}, {"w": "carbon footprint", "ipa": "/ˈkɑːbən ˈfʊtprɪnt/", "vn": "dấu chân cacbon (lượng khí thải của một người/tổ chức)", "def": "(noun) the amount of carbon dioxide a person or organisation produces", "ex": "Cycling to school helps you reduce your carbon footprint.", "hint": "The total greenhouse gases your daily life produces is your carbon …?", "img": "assets/cards/carbon-footprint.jpg", "slug": "carbon-footprint"}, {"w": "heatwave", "ipa": "/ˈhiːtweɪv/", "vn": "đợt nắng nóng", "def": "(noun) a period of unusually hot weather", "ex": "Last summer, a long heatwave dried up our school garden.", "hint": "A long period of extremely hot weather is called a …?", "img": "assets/cards/heatwave.jpg", "slug": "heatwave"}, {"w": "drought", "ipa": "/draʊt/", "vn": "hạn hán", "def": "(noun) a long period with little or no rain, when the land becomes very dry", "ex": "The drought killed many young trees in the garden.", "hint": "Month after month with almost no rain — the land is dry and cracked. What is this?", "img": "assets/cards/drought.jpg", "slug": "drought"}, {"w": "flood", "ipa": "/flʌd/", "vn": "lũ lụt, trận lụt", "def": "(noun) a large amount of water covering land that is usually dry", "ex": "Heavy rain caused a flood in the coastal town.", "hint": "Water covers streets and houses after very heavy rain. What is this disaster?", "img": "assets/cards/flood.jpg", "slug": "flood"}, {"w": "release", "ipa": "/rɪˈliːs/", "vn": "thải ra, giải phóng", "def": "(verb) to let a gas or substance go out into the air or water", "ex": "Factories release smoke into the air every day.", "hint": "Factories let harmful gases go out into the air. What do the gases do — they are …?", "img": "assets/cards/release.jpg", "slug": "release"}, {"w": "pollute", "ipa": "/pəˈluːt/", "vn": "gây ô nhiễm", "def": "(verb) to make air, water or land dirty and harmful", "ex": "Smoke from old cars pollutes the air in our city.", "hint": "Dirty smoke makes the air harmful to breathe — it … the air.", "img": "assets/cards/pollute.jpg", "slug": "pollute"}];
+fcInit();
+
+/* ---------- MATCHING ---------- */
+const matchQ=[{"q": "carbon dioxide", "opts": ["khí nhà kính", "khí cacbonic", "nhiên liệu hóa thạch", "khí quyển"], "ans": 1, "ex": "<b>carbon dioxide</b> = khí cacbonic (CO₂)."}, {"q": "fossil fuel", "opts": ["nhiên liệu hóa thạch", "năng lượng tái tạo", "than đá", "tấm pin mặt trời"], "ans": 0, "ex": "<b>fossil fuel</b> = nhiên liệu hóa thạch."}, {"q": "emission", "opts": ["hậu quả", "nhiệt độ", "khí thải", "mực nước biển"], "ans": 2, "ex": "<b>emission</b> = khí thải."}, {"q": "atmosphere", "opts": ["khí cacbonic", "hạn hán", "lũ lụt", "khí quyển"], "ans": 3, "ex": "<b>atmosphere</b> = khí quyển."}, {"q": "consequence", "opts": ["hậu quả", "đợt nắng nóng", "sự nóng lên toàn cầu", "nạn phá rừng"], "ans": 0, "ex": "<b>consequence</b> = hậu quả."}, {"q": "deforestation", "opts": ["khí thải", "nạn phá rừng", "dấu chân cacbon", "tan chảy"], "ans": 1, "ex": "<b>deforestation</b> = nạn phá rừng."}, {"q": "heatwave", "opts": ["hạn hán", "lũ lụt", "đợt nắng nóng", "nhiệt độ"], "ans": 2, "ex": "<b>heatwave</b> = đợt nắng nóng."}, {"q": "drought", "opts": ["lũ lụt", "khí nhà kính", "tan chảy", "hạn hán"], "ans": 3, "ex": "<b>drought</b> = hạn hán."}, {"q": "solar panel", "opts": ["tấm pin mặt trời", "than đá", "năng lượng tái tạo", "khí quyển"], "ans": 0, "ex": "<b>solar panel</b> = tấm pin mặt trời."}, {"q": "pollute", "opts": ["thải ra", "gây ô nhiễm", "tan chảy", "phá rừng"], "ans": 1, "ex": "<b>pollute</b> = gây ô nhiễm."}];
+selRender("#matchBox",matchQ,"match");
+
+/* ---------- VOCAB GAP ---------- */
+const vgapQ=[{"q": "Burning ______ fuels like coal releases carbon dioxide into the atmosphere.", "opts": ["renewable", "solar", "fossil", "clean"], "ans": 2, "ex": "…burning <b>fossil</b> fuels like coal…"}, {"q": "When the ice at the poles ______, the sea level rises.", "opts": ["melts", "pollutes", "releases", "burns"], "ans": 0, "ex": "When the ice <b>melts</b>, the sea level rises."}, {"q": "A long ______ with no rain dried up the farmers' fields.", "opts": ["flood", "heatwave", "panel", "drought"], "ans": 3, "ex": "A long <b>drought</b> with no rain…"}, {"q": "Our school put ______ panels on the library roof to make electricity from sunlight.", "opts": ["carbon", "solar", "greenhouse", "fossil"], "ans": 1, "ex": "…put <b>solar</b> panels on the library roof…"}, {"q": "Cycling to school is a good way to reduce your carbon ______.", "opts": ["dioxide", "level", "footprint", "gas"], "ans": 2, "ex": "…reduce your carbon <b>footprint</b>."}, {"q": "Cutting down forests, or ______, removes the trees that clean our air.", "opts": ["emission", "temperature", "atmosphere", "deforestation"], "ans": 3, "ex": "Cutting down forests, or <b>deforestation</b>,…"}, {"q": "After days of heavy rain, a ______ covered the streets of the coastal town.", "opts": ["flood", "drought", "heatwave", "coal"], "ans": 0, "ex": "…a <b>flood</b> covered the streets…"}, {"q": "Factories must not ______ harmful gases into the air at night.", "opts": ["melt", "release", "plant", "save"], "ans": 1, "ex": "Factories must not <b>release</b> harmful gases…"}];
+selRender("#vgapBox",vgapQ,"vgap");
+
+/* ---------- GRAMMAR CHECK ---------- */
+const pracQ=[{"q": "______ the chart, Linh understood the problem at once.", "opts": ["See", "Sees", "Seeing", "Seen"], "ans": 2, "ex": "Mệnh đề phân từ chỉ thời gian (cùng chủ ngữ Linh): <b>Seeing</b> the chart, Linh understood…"}, {"q": "______ worried about the planet, the students joined the campaign.", "opts": ["Being", "Be", "Is", "Been"], "ans": 0, "ex": "Mệnh đề phân từ chỉ lý do (= Because they were worried): <b>Being</b> worried…"}, {"q": "The ice is melting fast, ______ the sea level to rise.", "opts": ["cause", "causes", "caused", "causing"], "ans": 3, "ex": "Mệnh đề phân từ chỉ kết quả: …, <b>causing</b> the sea level to rise."}, {"q": "______ from the school roof, the solar panels look like a blue lake.", "opts": ["Seeing", "Seen", "Sees", "Saw"], "ans": 1, "ex": "Chủ ngữ 'the solar panels' chịu tác động (được nhìn thấy) → phân từ bị động: <b>Seen</b> from the school roof…"}, {"q": "______ through the dry garden, Nam felt sad.", "opts": ["Walk", "Walking", "Walks", "Walked"], "ans": 1, "ex": "Hai hành động cùng lúc, cùng chủ ngữ Nam: <b>Walking</b> through the dry garden…"}, {"q": "______ the photos of the flooded town, the students decided to help.", "opts": ["See", "Sees", "Seeing", "Seen"], "ans": 2, "ex": "Cùng chủ ngữ 'the students', hành động đồng thời: <b>Seeing</b> the photos…, the students decided…"}, {"q": "The teacher opened the lesson, ______ a photo of a melting glacier.", "opts": ["showing", "shows", "show", "showed"], "ans": 0, "ex": "Hai hành động nối tiếp của cùng chủ ngữ: …, <b>showing</b> a photo…"}, {"q": "______ in the city centre, the old power station pollutes the air every day.", "opts": ["Locate", "Locates", "Located", "Locating"], "ans": 2, "ex": "Nhà máy 'được đặt' ở trung tâm → phân từ bị động: <b>Located</b> in the city centre…"}];
+renderMCQ("#pracBox",pracQ,"prac",6,"pracprog");
+
+/* ---------- ORDER ---------- */
+initOrder(["Learn how burning coal releases carbon dioxide", "See the dry garden after the heatwave", "Put solar panels on the library roof", "Take a group photo under the campaign banner"],"ord");
+
+/* ---------- TRUE/FALSE ---------- */
+const tfQ=[{"q": "The Green Earth Campaign took place at Green Star High School.", "ans": true, "ex": "Đúng — chiến dịch diễn ra tại trường Green Star High School."}, {"q": "Nam explained that greenhouse gases trap heat in the atmosphere.", "ans": false, "ex": "Sai — LINH là người giải thích khí nhà kính giữ nhiệt trong khí quyển."}, {"q": "A long heatwave and drought dried up the school garden.", "ans": true, "ex": "Đúng — đợt nắng nóng và hạn hán đã làm khô khu vườn trường."}, {"q": "The students planned to plant one hundred trees.", "ans": true, "ex": "Đúng — Linh trình bày kế hoạch trồng 100 cây xanh."}, {"q": "The solar panels were put on the roof of the science room.", "ans": false, "ex": "Sai — các tấm pin mặt trời được lắp trên mái THƯ VIỆN (library), không phải phòng khoa học."}];
+tfRender("#tfBox",tfQ,"tf");
+
+/* ---------- READING ---------- */
+const readQ=[{"q": "What is the main idea of the story?", "opts": ["How to build a solar power station", "A school campaign against global warming", "The history of Green Star High School", "Why students should cycle to school"], "ans": 1, "ex": "Toàn bài kể về chiến dịch Green Earth Campaign chống nóng lên toàn cầu tại trường của Linh và Nam."}, {"q": "According to the teacher, burning fossil fuels releases ______ into the atmosphere.", "opts": ["fresh air", "carbon dioxide", "solar energy", "rain water"], "ans": 1, "ex": "Cô giáo nói: đốt nhiên liệu hóa thạch thải <b>carbon dioxide</b> vào khí quyển."}, {"q": "The word “trap” in paragraph 1 is closest in meaning to ______.", "opts": ["clean", "produce", "keep inside", "measure"], "ans": 2, "ex": "<b>trap</b> = giữ lại bên trong ≈ <b>keep inside</b>."}, {"q": "Why did many young trees in the school garden die?", "opts": ["Because of the flood in the town", "Because students cut them down", "Because of the solar panels", "Because of the long heatwave and drought"], "ans": 3, "ex": "Đợt nắng nóng kéo dài và hạn hán (<b>heatwave and drought</b>) đã làm nhiều cây non chết."}, {"q": "What renewable energy did the students install at school?", "opts": ["Solar panels on the library roof", "A wind farm behind the school", "A coal power station", "New air conditioners"], "ans": 0, "ex": "Học sinh lắp <b>solar panels</b> (pin mặt trời) trên mái thư viện."}, {"q": "Which of the following is NOT true?", "opts": ["Linh presented a plan to plant 100 trees", "Melting ice raises the sea level", "The students took a group photo at the end", "The campaign lasted for a whole month"], "ans": 3, "ex": "Chiến dịch diễn ra trong một ngày hội ở trường, không kéo dài cả tháng."}];
+renderMCQ("#readBox",readQ,"read",5,"readprog");
+
+/* ---------- LISTENING GAP ---------- */
+const FORMF=[{"label": "Day:", "accept": ["Friday"]}, {"label": "Date:", "suffix": "November", "accept": ["20", "20th"]}, {"label": "The talk starts at:", "suffix": "p.m.", "accept": ["3:30", "3.30", "330"]}, {"label": "Place:", "accept": ["the school library", "school library"]}, {"label": "Speaker: Dr", "accept": ["Mai Anh", "MaiAnh"]}, {"label": "Please bring a:", "accept": ["notebook"]}];
+buildForm('formBox',FORMF,'lgap');
+const LTF=[{"q": "Nam rode a bus to school every day this week.", "ans": false, "ex": "Sai — Nam ĐẠP XE (cycled) đến trường cả tuần, không đi xe buýt."}, {"q": "Linh's family has recently started using solar energy at home.", "ans": true, "ex": "Đúng — gia đình Linh vừa lắp pin mặt trời trên mái nhà (diễn đạt lại)."}, {"q": "Nam's family decided not to buy solar panels because they cost too much.", "ans": true, "ex": "Đúng — gia đình Nam thấy pin mặt trời quá đắt nên thay vào đó trồng cây trong vườn."}, {"q": "Linh's family often leaves the lights on in empty rooms.", "ans": false, "ex": "Sai — gia đình Linh tiết kiệm điện, tắt đèn khi rời phòng."}, {"q": "Nam's father checks their carbon footprint once a year.", "ans": false, "ex": "Sai — bố Nam kiểm tra dấu chân cacbon MỖI THÁNG bằng ứng dụng."}, {"q": "The two students plan to share their energy-saving tips with their classmates.", "ans": true, "ex": "Đúng — hai bạn dự định chia sẻ các mẹo tiết kiệm năng lượng với cả lớp vào thứ Hai."}];
+buildTF('ltfBox',LTF,'ltf');
+
+/* ---------- HOMEWORK A ---------- */
+const hwAQ=[{"q": "______ is the slow increase in the Earth's average temperature.", "opts": ["Deforestation", "Global warming", "Sea level", "Emission"], "ans": 1, "ex": "<b>Global warming</b> (sự nóng lên toàn cầu) là sự gia tăng nhiệt độ trung bình của Trái Đất."}, {"q": "Coal and oil are ______ fuels formed millions of years ago.", "opts": ["renewable", "solar", "fossil", "clean"], "ans": 2, "ex": "Than đá và dầu mỏ là <b>fossil</b> fuels (nhiên liệu hóa thạch)."}, {"q": "Greenhouse gases trap heat in the Earth's ______.", "opts": ["atmosphere", "garden", "ocean", "roof"], "ans": 0, "ex": "Khí nhà kính giữ nhiệt trong <b>atmosphere</b> (khí quyển)."}, {"q": "Floods and droughts are serious ______ of global warming.", "opts": ["panels", "footprints", "temperatures", "consequences"], "ans": 3, "ex": "Lũ lụt và hạn hán là <b>consequences</b> (hậu quả) nghiêm trọng."}, {"q": "When polar ice ______, sea levels rise.", "opts": ["pollutes", "melts", "plants", "burns"], "ans": 1, "ex": "Khi băng ở hai cực <b>melts</b> (tan chảy), mực nước biển dâng lên."}, {"q": "Wind and solar power are forms of ______ energy.", "opts": ["fossil", "coal", "renewable", "harmful"], "ans": 2, "ex": "Điện gió và điện mặt trời là <b>renewable</b> energy (năng lượng tái tạo)."}, {"q": "A ______ is a long period of hot weather with no rain.", "opts": ["drought", "flood", "panel", "gas"], "ans": 0, "ex": "<b>Drought</b> là hạn hán — thời gian dài nắng nóng, không mưa."}, {"q": "Old trucks ______ a lot of black smoke into the air.", "opts": ["melt", "plant", "save", "release"], "ans": 3, "ex": "Xe tải cũ <b>release</b> (thải ra) nhiều khói đen vào không khí."}, {"q": "You can reduce your carbon ______ by cycling instead of driving.", "opts": ["dioxide", "footprint", "panel", "level"], "ans": 1, "ex": "Giảm carbon <b>footprint</b> (dấu chân cacbon) bằng cách đạp xe."}, {"q": "Smoke from factories ______ the air in big cities.", "opts": ["cleans", "saves", "pollutes", "cools"], "ans": 2, "ex": "Khói nhà máy <b>pollutes</b> (gây ô nhiễm) không khí."}];
+selRender("#hwABox",hwAQ,"hwA");
+
+/* ---------- HOMEWORK B ---------- */
+const hwBQ=[{"q": "______ the news, Linh smiled happily.", "opts": ["Hear", "Hearing", "Hears", "Heard"], "ans": 1, "ex": "Cùng chủ ngữ, hành động đồng thời: <b>Hearing</b> the news, Linh smiled…"}, {"q": "______ tired after the long walk, the students sat down to rest.", "opts": ["Be", "Is", "Being", "Been"], "ans": 2, "ex": "Chỉ lý do (= Because they were tired): <b>Being</b> tired…"}, {"q": "The river rose quickly, ______ the whole village.", "opts": ["flood", "floods", "flooding", "flooded"], "ans": 2, "ex": "Chỉ kết quả: …, <b>flooding</b> the whole village."}, {"q": "______ in 2020, the solar farm produces clean energy today.", "opts": ["Built", "Building", "Build", "Builds"], "ans": 0, "ex": "Trang trại 'được xây' → phân từ bị động: <b>Built</b> in 2020…"}, {"q": "______ off the lights, she left the classroom.", "opts": ["Turn", "Turns", "Turned", "Turning"], "ans": 3, "ex": "Hai hành động nối tiếp, cùng chủ ngữ: <b>Turning</b> off the lights, she left…"}, {"q": "______ the instructions carefully, Nam planted the tree correctly.", "opts": ["Reading", "Read", "Reads", "Reader"], "ans": 0, "ex": "<b>Reading</b> the instructions carefully, Nam planted… (chỉ thời gian/cách thức)."}, {"q": "______ near the sea, the town often suffers from floods.", "opts": ["Locate", "Located", "Locating", "Locates"], "ans": 1, "ex": "Thị trấn 'nằm' gần biển → phân từ bị động: <b>Located</b> near the sea…"}, {"q": "The forest burnt for days, ______ thick smoke over the city.", "opts": ["send", "sends", "sending", "sent"], "ans": 2, "ex": "Chỉ kết quả: …, <b>sending</b> thick smoke over the city."}, {"q": "______ how to save energy, the students changed their habits.", "opts": ["Know", "Knows", "Known", "Knowing"], "ans": 3, "ex": "Chỉ lý do/thời gian: <b>Knowing</b> how to save energy, the students…"}, {"q": "______ by the teacher's words, the class promised to plant more trees.", "opts": ["Encouraging", "Encouraged", "Encourage", "Encourages"], "ans": 1, "ex": "Cả lớp 'được khích lệ' → phân từ bị động: <b>Encouraged</b> by the teacher's words…"}];
+selRender("#hwBBox",hwBQ,"hwB");
+
+/* ---------- HOMEWORK C ---------- */
+const hwCQ=[{"q": "The Green Earth Campaign was held at ______.", "opts": ["the city library", "Green Star High School", "a science centre", "the town hall"], "ans": 1, "ex": "Chiến dịch diễn ra tại <b>Green Star High School</b>."}, {"q": "In the science room, the teacher showed the class a chart of ______.", "opts": ["the school garden", "ASEAN flags", "the Earth's rising temperature", "famous scientists"], "ans": 2, "ex": "Cô giáo cho xem biểu đồ <b>nhiệt độ Trái Đất đang tăng</b>."}, {"q": "According to the teacher, burning coal releases ______ into the atmosphere.", "opts": ["carbon dioxide", "fresh air", "water vapour only", "solar energy"], "ans": 0, "ex": "Đốt than thải <b>carbon dioxide</b> vào khí quyển."}, {"q": "Who explained that greenhouse gases trap heat?", "opts": ["Nam", "The teacher", "Linh", "The principal"], "ans": 2, "ex": "<b>Linh</b> giải thích khí nhà kính giữ nhiệt trong khí quyển."}, {"q": "The school garden was dry because of ______.", "opts": ["the flood", "a long heatwave and drought", "the solar panels", "too many students"], "ans": 1, "ex": "Vườn khô vì <b>đợt nắng nóng kéo dài và hạn hán</b>."}, {"q": "Melting ice raises the sea level and causes ______ in coastal areas.", "opts": ["droughts", "heatwaves", "snow", "floods"], "ans": 3, "ex": "Băng tan làm mực nước biển dâng, gây <b>floods</b> (lũ lụt) ở vùng ven biển."}, {"q": "The students put solar panels on the roof of ______.", "opts": ["the library", "the canteen", "the science room", "the gym"], "ans": 0, "ex": "Pin mặt trời được lắp trên mái <b>library</b> (thư viện)."}, {"q": "Linh's plan was to plant ______ trees.", "opts": ["ten", "fifty", "one hundred", "two hundred"], "ans": 2, "ex": "Kế hoạch của Linh: trồng <b>one hundred</b> (100) cây."}, {"q": "At the end of the day, the class took a group photo ______.", "opts": ["in the science room", "under the campaign banner", "on the library roof", "in the garden"], "ans": 1, "ex": "Cả lớp chụp ảnh tập thể <b>dưới tấm băng-rôn của chiến dịch</b>."}, {"q": "Nam said that protecting our planet starts with ______.", "opts": ["the government", "scientists", "us", "the teachers"], "ans": 2, "ex": "Nam nói: bảo vệ hành tinh bắt đầu từ <b>chính chúng ta (us)</b>."}];
+selRender("#hwCBox",hwCQ,"hwC");
+
+showSlide(0);
+</script>
+</body>
+</html>
